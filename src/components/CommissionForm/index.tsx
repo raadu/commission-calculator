@@ -36,7 +36,7 @@ function CommissionForm(props: CommisionFormProps) {
               },
             ]}
           >
-            <InputNumber style={{ width: "100%" }} />
+            <InputNumber style={{ width: "100%" }} min={0} />
           </Form.Item>
         </Col>
         <Col span={4}>
