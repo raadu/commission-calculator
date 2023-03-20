@@ -23,3 +23,18 @@ export const OPERATION_TYPES = [
     value: "cash_out",
   },
 ];
+
+export const USERS_LIST = [
+  {
+    id: 1,
+    name: "Robin",
+  },
+  {
+    id: 2,
+    name: "Raihan",
+  },
+  {
+    id: 3,
+    name: "Rubaba",
+  },
+];

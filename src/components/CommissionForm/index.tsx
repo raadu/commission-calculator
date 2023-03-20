@@ -1,5 +1,14 @@
-import { Form, Row, Col, InputNumber, DatePicker, Select, Button } from "antd";
-import { USER_TYPES, OPERATION_TYPES } from "utils/constants";
+import {
+  Form,
+  Row,
+  Col,
+  Input,
+  InputNumber,
+  DatePicker,
+  Select,
+  Button,
+} from "antd";
+import { USER_TYPES, OPERATION_TYPES, USERS_LIST } from "utils/constants";
 
 type CommisionFormProps = {
   onCalculate: (values: Record<string, any>) => void;
@@ -15,8 +24,8 @@ function CommissionForm(props: CommisionFormProps) {
 
   return (
     <Form form={commissionForm} layout="vertical" onFinish={onCalculate}>
-      <Row>
-        <Col span={24}>
+      <Row gutter={6}>
+        <Col span={20}>
           <Form.Item
             label="Amount"
             name="amount"
@@ -30,9 +39,14 @@ function CommissionForm(props: CommisionFormProps) {
             <InputNumber style={{ width: "100%" }} />
           </Form.Item>
         </Col>
+        <Col span={4}>
+          <Form.Item label="Currency" name="currency" initialValue="EUR">
+            <Input disabled />
+          </Form.Item>
+        </Col>
       </Row>
-      <Row>
-        <Col span={24}>
+      <Row gutter={6}>
+        <Col span={12}>
           <Form.Item
             label="Date"
             name="date"
@@ -44,6 +58,28 @@ function CommissionForm(props: CommisionFormProps) {
             ]}
           >
             <DatePicker style={{ width: "100%" }} format="YYYY-MM-DD" />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            label="User"
+            name="user_id"
+            rules={[
+              {
+                required: true,
+                message: "Please select a user",
+              },
+            ]}
+          >
+            <Select placeholder="Select User" style={{ width: "100%" }}>
+              {USERS_LIST.map((userType: Record<string, any>) => {
+                return (
+                  <Option key={userType.id} value={userType.id}>
+                    {userType.name}
+                  </Option>
+                );
+              })}
+            </Select>
           </Form.Item>
         </Col>
       </Row>
