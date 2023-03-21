@@ -29,10 +29,9 @@ const RootComponent = () => {
   const [cashOutNaturalResponse, cashOutNaturalGet] = useFetch();
   const [cashOutJuridicalResponse, cashOutJuridicalGet] = useFetch();
 
-  console.log("transactionHistory", transactionHistory);
-
   // Effects
   useEffect(() => {
+    // Get all config data from API
     cashInGet(CASH_IN_ENDPOINT);
     cashOutNaturalGet(CASH_OUT_NATURAL_ENDPOINT);
     cashOutJuridicalGet(CASH_OUT_JURIDICAL_ENDPOINT);
@@ -42,6 +41,7 @@ const RootComponent = () => {
     const formattedDate = moment(values.date).format("YYYY-MM-DD");
     let calculatedCommission: number | null = null;
 
+    // For Cash In
     if (values.type === "cash_in") {
       calculatedCommission = calculateCashInFee(
         values.amount,
@@ -49,7 +49,9 @@ const RootComponent = () => {
       );
     }
 
+    // For Cash Out
     if (values.type === "cash_out") {
+      // For Natural User
       if (values.user_type === "natural") {
         calculatedCommission = calculateCashOutNaturalFee(
           values.amount,
@@ -60,6 +62,7 @@ const RootComponent = () => {
         );
       }
 
+      // For Legal User
       if (values.user_type === "juridical") {
         calculatedCommission = calculateCashOutJuridicalFee(
           values.amount,

@@ -9,7 +9,6 @@ import {
   Button,
   Space,
 } from "antd";
-// import moment from "moment";
 import { USER_TYPES, OPERATION_TYPES, USERS_LIST } from "utils/constants";
 
 type CommisionFormProps = {
@@ -65,8 +64,8 @@ function CommissionForm(props: CommisionFormProps) {
             getValueFromEvent={(inputDate, dateString) => {
               return dateString;
             }}
-            getValueProps={(i): Record<string, any> => {
-              return i;
+            getValueProps={(dateInput): Record<string, any> => {
+              return dateInput;
             }}
           >
             <DatePicker style={{ width: "100%" }} format="YYYY-MM-DD" />
@@ -144,7 +143,6 @@ function CommissionForm(props: CommisionFormProps) {
           </Form.Item>
         </Col>
       </Row>
-      {/* center the button */}
       <div style={{ textAlign: "center" }}>
         <Space>
           <Button onClick={onResetForm}>Reset</Button>

@@ -11,10 +11,13 @@ export const checkIsArrayAndHasValue = (data: any) => {
 export const getDatesPassedInWeek = (inputDate: string) => {
   const datesTrack = [];
   const inputDateObject = moment(inputDate, "YYYY-MM-DD");
+  // Actual start of week is Sunday
   const actualStartOfWeek = moment(inputDateObject).startOf("week");
+  // Custom start of week will be assigned to startOfWeek
   let startOfWeek = null;
 
-  // Start the week on Monday
+  // If the input date is Sunday, then the start of week will be the previous Monday
+  // Else, the start of week will be next day of sunday (monday)
   if (inputDateObject.isSame(actualStartOfWeek)) {
     startOfWeek = moment(inputDateObject).startOf("week").subtract(6, "days");
   } else {
