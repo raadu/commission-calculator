@@ -7,23 +7,25 @@ import {
   DatePicker,
   Select,
   Button,
+  FormInstance,
 } from "antd";
+// import moment from "moment";
 import { USER_TYPES, OPERATION_TYPES, USERS_LIST } from "utils/constants";
 
 type CommisionFormProps = {
+  form: FormInstance;
   onCalculate: (values: Record<string, any>) => void;
 };
 
 function CommissionForm(props: CommisionFormProps) {
   // Props
-  const { onCalculate } = props;
+  const { form, onCalculate } = props;
 
   // Antd Constants
-  const [commissionForm] = Form.useForm();
   const { Option } = Select;
 
   return (
-    <Form form={commissionForm} layout="vertical" onFinish={onCalculate}>
+    <Form form={form} layout="vertical" onFinish={onCalculate}>
       <Row gutter={6}>
         <Col span={20}>
           <Form.Item
@@ -56,6 +58,12 @@ function CommissionForm(props: CommisionFormProps) {
                 message: "Please select a date",
               },
             ]}
+            getValueFromEvent={(inputDate, dateString) => {
+              return dateString;
+            }}
+            getValueProps={(i): Record<string, any> => {
+              return i;
+            }}
           >
             <DatePicker style={{ width: "100%" }} format="YYYY-MM-DD" />
           </Form.Item>

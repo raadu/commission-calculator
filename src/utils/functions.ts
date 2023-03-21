@@ -1,17 +1,30 @@
-import moment, { Moment } from "moment";
+import moment from "moment";
 
-var enumerateDaysBetweenDates = function (startDate: Moment, endDate: Moment) {
-  var dates = [];
+export const checkIsArrayAndHasValue = (data: any) => {
+  if (data && Array.isArray(data) && data.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
-  var currDate = moment(startDate).startOf("day");
-  var lastDate = moment(endDate).startOf("day");
+export const getDatesPassedInWeek = (inputDate: string) => {
+  const datesTrack = [];
+  const inputDateObject = moment(inputDate, "YYYY-MM-DD");
+  // Start the week on Monday
+  const startOfWeek = moment(inputDateObject).startOf("week").add(1, "days");
 
-  while (currDate.add(1, "days").diff(lastDate) < 0) {
-    console.log(currDate.toDate());
-    dates.push(currDate.clone().toDate());
+  let clonedStartOfWeek = startOfWeek.clone();
+
+  while (clonedStartOfWeek.isSameOrBefore(inputDateObject)) {
+    // Add the current or past date of the week to the array
+    datesTrack.push(clonedStartOfWeek.format("YYYY-MM-DD"));
+
+    // Move to the next day
+    clonedStartOfWeek.add(1, "day");
   }
 
-  return dates;
+  return datesTrack;
 };
 
 export const calculateCashInFee = (
@@ -42,19 +55,55 @@ export const calculateCashOutNaturalFee = (
 ) => {
   let commissionAmount = null;
 
-  console.log("date", date);
-  console.log("transactionHistory", transactionHistory);
-  console.log("userId", userId);
-
-  var currentDate = moment();
-  var weekStart = currentDate.startOf("week");
-  console.log("weekStart", weekStart);
-  const daysPast = enumerateDaysBetweenDates(currentDate, weekStart);
-  console.log("daysPast", daysPast);
+  // console.log("amount", amount);
+  // console.log("configData", configData);
+  // console.log("date", date);
+  // console.log("transactionHistory", transactionHistory);
+  // console.log("userId", userId);
 
   if (amount > 0) {
-    commissionAmount = (amount * configData.percents) / 100;
+    const datesPassedInWeek = getDatesPassedInWeek(date);
+    // console.log("datesPassedInWeek", datesPassedInWeek);
+
+    let totalTransactionInWeek = transactionHistory?.reduce(
+      (accumulator, currentValue) => {
+        if (
+          datesPassedInWeek.includes(currentValue.date) &&
+          currentValue.type === "cash_out" &&
+          currentValue.user_type === "natural" &&
+          currentValue.user_id === userId
+        ) {
+          return (accumulator += currentValue.amount);
+        } else {
+          return accumulator;
+        }
+      },
+      0,
+    );
+
+    console.log("totalTransactionInWeek", totalTransactionInWeek);
+
+    totalTransactionInWeek = totalTransactionInWeek
+      ? totalTransactionInWeek
+      : 0;
+
+    if (totalTransactionInWeek >= 1000) {
+      commissionAmount = (amount * configData.percents) / 100;
+    } else if (totalTransactionInWeek < 1000) {
+      const transactionSum = totalTransactionInWeek
+        ? totalTransactionInWeek + amount
+        : amount;
+
+      if (transactionSum <= 1000) {
+        commissionAmount = 0;
+      } else if (transactionSum > 1000) {
+        const commissionApplicableAmount = amount - 1000;
+        commissionAmount =
+          (commissionApplicableAmount * configData.percents) / 100;
+      }
+    }
   } else {
+    // console.log("amount is less than 0");
     commissionAmount = 0;
   }
 

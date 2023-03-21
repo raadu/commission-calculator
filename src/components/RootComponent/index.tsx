@@ -1,5 +1,6 @@
 import { Card } from "antd";
 import CommissionForm from "components/CommissionForm";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useFetch } from "utils/customHooks/api-service";
 import {
@@ -12,6 +13,7 @@ import {
   calculateCashOutNaturalFee,
   calculateCashOutJuridicalFee,
 } from "utils/functions";
+import { Form } from "antd";
 
 const RootComponent = () => {
   // States
@@ -25,8 +27,8 @@ const RootComponent = () => {
   const [cashOutNaturalResponse, cashOutNaturalGet] = useFetch();
   const [cashOutJuridicalResponse, cashOutJuridicalGet] = useFetch();
 
-  console.log("cashOutNaturalResponse", cashOutNaturalResponse);
-  console.log("transactionHistory", transactionHistory);
+  // Antd Constants
+  const [commissionForm] = Form.useForm();
 
   // Effects
   useEffect(() => {
@@ -36,9 +38,8 @@ const RootComponent = () => {
   }, [cashInGet, cashOutJuridicalGet, cashOutNaturalGet]);
 
   const onCalculate = (values: Record<string, any>) => {
-    console.log("values", values);
-    const formattedDate = values.date.format("YYYY-MM-DD");
-    console.log("formattedDate", formattedDate);
+    // console.log("values", values);
+    const formattedDate = moment(values.date).format("YYYY-MM-DD");
     let calculatedCommission: number | null = null;
 
     if (values.type === "cash_in") {
@@ -67,6 +68,7 @@ const RootComponent = () => {
       }
     }
 
+    // commissionForm.resetFields();
     setCommissionAmount(calculatedCommission);
     setTransactionHistory((prev) => [
       ...prev,
@@ -77,7 +79,7 @@ const RootComponent = () => {
   return (
     <div className="centerDiv">
       <Card bordered={true} style={{ width: 450 }}>
-        <CommissionForm onCalculate={onCalculate} />
+        <CommissionForm form={commissionForm} onCalculate={onCalculate} />
         <div>{commissionAmount}</div>
       </Card>
     </div>
