@@ -7,25 +7,29 @@ import {
   DatePicker,
   Select,
   Button,
-  FormInstance,
+  Space,
 } from "antd";
 // import moment from "moment";
 import { USER_TYPES, OPERATION_TYPES, USERS_LIST } from "utils/constants";
 
 type CommisionFormProps = {
-  form: FormInstance;
   onCalculate: (values: Record<string, any>) => void;
 };
 
 function CommissionForm(props: CommisionFormProps) {
   // Props
-  const { form, onCalculate } = props;
+  const { onCalculate } = props;
 
   // Antd Constants
+  const [commissionForm] = Form.useForm();
   const { Option } = Select;
 
+  const onResetForm = () => {
+    commissionForm.resetFields();
+  };
+
   return (
-    <Form form={form} layout="vertical" onFinish={onCalculate}>
+    <Form form={commissionForm} layout="vertical" onFinish={onCalculate}>
       <Row gutter={6}>
         <Col span={20}>
           <Form.Item
@@ -142,9 +146,12 @@ function CommissionForm(props: CommisionFormProps) {
       </Row>
       {/* center the button */}
       <div style={{ textAlign: "center" }}>
-        <Button type="primary" htmlType="submit">
-          Calculate
-        </Button>
+        <Space>
+          <Button onClick={onResetForm}>Reset</Button>
+          <Button type="primary" htmlType="submit">
+            Calculate
+          </Button>
+        </Space>
       </div>
     </Form>
   );

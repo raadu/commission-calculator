@@ -1,5 +1,6 @@
-import { Card } from "antd";
+import { Card, Col, Row } from "antd";
 import CommissionForm from "components/CommissionForm";
+import TransactionHistory from "components/TransactionHistory";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useFetch } from "utils/customHooks/api-service";
@@ -13,7 +14,7 @@ import {
   calculateCashOutNaturalFee,
   calculateCashOutJuridicalFee,
 } from "utils/functions";
-import { Form } from "antd";
+import { checkIsArrayAndHasValue } from "utils/functions";
 
 const RootComponent = () => {
   // States
@@ -27,8 +28,7 @@ const RootComponent = () => {
   const [cashOutNaturalResponse, cashOutNaturalGet] = useFetch();
   const [cashOutJuridicalResponse, cashOutJuridicalGet] = useFetch();
 
-  // Antd Constants
-  const [commissionForm] = Form.useForm();
+  console.log("transactionHistory", transactionHistory);
 
   // Effects
   useEffect(() => {
@@ -38,7 +38,6 @@ const RootComponent = () => {
   }, [cashInGet, cashOutJuridicalGet, cashOutNaturalGet]);
 
   const onCalculate = (values: Record<string, any>) => {
-    // console.log("values", values);
     const formattedDate = moment(values.date).format("YYYY-MM-DD");
     let calculatedCommission: number | null = null;
 
@@ -68,7 +67,6 @@ const RootComponent = () => {
       }
     }
 
-    // commissionForm.resetFields();
     setCommissionAmount(calculatedCommission);
     setTransactionHistory((prev) => [
       ...prev,
@@ -77,12 +75,19 @@ const RootComponent = () => {
   };
 
   return (
-    <div className="centerDiv">
-      <Card bordered={true} style={{ width: 450 }}>
-        <CommissionForm form={commissionForm} onCalculate={onCalculate} />
-        <div>{commissionAmount}</div>
-      </Card>
-    </div>
+    <Row>
+      <Col span={checkIsArrayAndHasValue(transactionHistory) ? 18 : 24}>
+        <div className="centerDiv">
+          <Card bordered={true} style={{ width: 450 }}>
+            <CommissionForm onCalculate={onCalculate} />
+            <div>{commissionAmount}</div>
+          </Card>
+        </div>
+      </Col>
+      <Col span={checkIsArrayAndHasValue(transactionHistory) ? 6 : 0}>
+        <TransactionHistory history={transactionHistory} />
+      </Col>
+    </Row>
   );
 };
 

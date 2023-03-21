@@ -11,8 +11,15 @@ export const checkIsArrayAndHasValue = (data: any) => {
 export const getDatesPassedInWeek = (inputDate: string) => {
   const datesTrack = [];
   const inputDateObject = moment(inputDate, "YYYY-MM-DD");
+  const actualStartOfWeek = moment(inputDateObject).startOf("week");
+  let startOfWeek = null;
+
   // Start the week on Monday
-  const startOfWeek = moment(inputDateObject).startOf("week").add(1, "days");
+  if (inputDateObject.isSame(actualStartOfWeek)) {
+    startOfWeek = moment(inputDateObject).startOf("week").subtract(6, "days");
+  } else {
+    startOfWeek = moment(inputDateObject).startOf("week").add(1, "days");
+  }
 
   let clonedStartOfWeek = startOfWeek.clone();
 
@@ -55,15 +62,8 @@ export const calculateCashOutNaturalFee = (
 ) => {
   let commissionAmount = null;
 
-  // console.log("amount", amount);
-  // console.log("configData", configData);
-  // console.log("date", date);
-  // console.log("transactionHistory", transactionHistory);
-  // console.log("userId", userId);
-
   if (amount > 0) {
     const datesPassedInWeek = getDatesPassedInWeek(date);
-    // console.log("datesPassedInWeek", datesPassedInWeek);
 
     let totalTransactionInWeek = transactionHistory?.reduce(
       (accumulator, currentValue) => {
@@ -80,8 +80,6 @@ export const calculateCashOutNaturalFee = (
       },
       0,
     );
-
-    console.log("totalTransactionInWeek", totalTransactionInWeek);
 
     totalTransactionInWeek = totalTransactionInWeek
       ? totalTransactionInWeek
@@ -103,7 +101,6 @@ export const calculateCashOutNaturalFee = (
       }
     }
   } else {
-    // console.log("amount is less than 0");
     commissionAmount = 0;
   }
 
