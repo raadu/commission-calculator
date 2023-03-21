@@ -1,6 +1,7 @@
 import { Card, Col, Row } from "antd";
 import CommissionForm from "components/CommissionForm";
 import TransactionHistory from "components/TransactionHistory";
+import Result from "components/Result";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useFetch } from "utils/customHooks/api-service";
@@ -79,8 +80,9 @@ const RootComponent = () => {
       <Col span={checkIsArrayAndHasValue(transactionHistory) ? 18 : 24}>
         <div className="centerDiv">
           <Card bordered={true} style={{ width: 450 }}>
+            <div className="formTitle">Commission Calculator</div>
             <CommissionForm onCalculate={onCalculate} />
-            <div>{commissionAmount}</div>
+            <Result commissionAmount={commissionAmount} />
           </Card>
         </div>
       </Col>
