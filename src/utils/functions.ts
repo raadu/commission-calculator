@@ -38,6 +38,20 @@ export const getDatesPassedInWeek = (inputDate: string) => {
   return datesTrack;
 };
 
+export const convertToCeiling = (amount: number) => {
+  return Math.ceil(amount * 100) / 100;
+}
+
+export const modifyFinalCommision = (commission: number) => {
+  const roundedEuro = convertToCeiling(commission);
+  const euro = Math.floor(roundedEuro);
+  const cents = Math.round((roundedEuro - euro) * 100);
+  const euroString = euro>0 ? `${euro} euro${euro > 1 ? "s" : ""}` : commission===0 ? `0 euro` : "";
+  const centString = cents>0 ? `${cents} cent${cents !== 1 ? "s" : ""}` : "";
+
+  return `${euroString} ${centString}`;
+}
+
 export const calculateCashInFee = (
   amount: number,
   configData: Record<string, any>,

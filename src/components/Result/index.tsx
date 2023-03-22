@@ -1,4 +1,5 @@
 import { Typography } from "antd";
+import { modifyFinalCommision } from 'utils/functions';
 
 type ResultProps = {
   commissionAmount: number | null;
@@ -16,7 +17,7 @@ const Result = (props: ResultProps) => {
             Calculated Commission Is
           </Typography.Title>
           <Typography.Title level={2} mark style={{ textAlign: "center" }}>
-            {`${commissionAmount} €`}
+            {`${modifyFinalCommision(commissionAmount)}`}
           </Typography.Title>
         </>
       ) : null}
