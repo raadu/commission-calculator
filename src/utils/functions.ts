@@ -1,4 +1,5 @@
 import moment from "moment";
+import { calculateCashOutNaturalFeeProps } from 'types/functionTypes';
 
 export const checkIsArrayAndHasValue = (data: any) => {
   if (data && Array.isArray(data) && data.length > 0) {
@@ -56,18 +57,20 @@ export const calculateCashInFee = (
   return commissionAmount;
 };
 
-export const calculateCashOutNaturalFee = (
-  amount: number,
-  configData: Record<string, any>,
-  date: string,
-  transactionHistory: Record<string, any>[] | null,
-  userId: number,
-) => {
+export const calculateCashOutNaturalFee = (props: calculateCashOutNaturalFeeProps) => {
+  // Props
+  const { amount, configData, date, transactionHistory, userId } = props;
+
+  // Commission Amount Track
   let commissionAmount = null;
 
+  if(amount<=0) commissionAmount = 0;
+
   if (amount > 0) {
+    // Dates passed in week from the given date, including given date
     const datesPassedInWeek = getDatesPassedInWeek(date);
 
+    // Total cashout transaction amount in the week for selected natiral user
     let totalTransactionInWeek = transactionHistory?.reduce(
       (accumulator, currentValue) => {
         if (
@@ -88,9 +91,15 @@ export const calculateCashOutNaturalFee = (
       ? totalTransactionInWeek
       : 0;
 
+    // LOGIC:
+    // If totalTransactionInWeek is greater or equal to 1000, then apply the commission percentage
+    // Else, if totalTransactionInWeek is less than 1000, then check if the totalTransactionInWeek + amount is less than 1000
+    // If transactionSum is less than 1000, then no commission
+    // Else, if transactionSum is greater than 1000, then apply the commission percentage in applicable amount
     if (totalTransactionInWeek >= 1000) {
       commissionAmount = (amount * configData.percents) / 100;
     } else if (totalTransactionInWeek < 1000) {
+      // Get total transaction amount in a week including current transaction
       const transactionSum = totalTransactionInWeek
         ? totalTransactionInWeek + amount
         : amount;
@@ -103,8 +112,6 @@ export const calculateCashOutNaturalFee = (
           (commissionApplicableAmount * configData.percents) / 100;
       }
     }
-  } else {
-    commissionAmount = 0;
   }
 
   return commissionAmount;

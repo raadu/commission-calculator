@@ -1,9 +1,9 @@
+import { useEffect, useState } from "react";
 import { Card, Col, Row } from "antd";
+import moment from "moment";
 import CommissionForm from "components/CommissionForm";
 import TransactionHistory from "components/TransactionHistory";
 import Result from "components/Result";
-import moment from "moment";
-import { useEffect, useState } from "react";
 import { useFetch } from "utils/customHooks/api-service";
 import {
   CASH_IN_ENDPOINT,
@@ -53,13 +53,16 @@ const RootComponent = () => {
     if (values.type === "cash_out") {
       // For Natural User
       if (values.user_type === "natural") {
-        calculatedCommission = calculateCashOutNaturalFee(
-          values.amount,
-          cashOutNaturalResponse.data.data,
-          formattedDate,
-          transactionHistory,
-          values.user_id,
-        );
+        // Props for calculateCashOutNaturalFee function
+        const props = {
+          amount: values.amount,
+          configData: cashOutNaturalResponse.data.data,
+          date: formattedDate,
+          transactionHistory: transactionHistory,
+          userId: values.user_id,
+        };
+
+        calculatedCommission = calculateCashOutNaturalFee(props);
       }
 
       // For Legal User
