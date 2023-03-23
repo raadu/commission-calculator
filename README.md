@@ -1,7 +1,7 @@
 # Introduction
 Commission Calculator - Get the calculated commission charge for your transaction amount. Cash In, Cash Out commission charge calculated based on total amount, weekly free charge limit, user ID and user type.<br/>
 
-Demo Project Link:  <br/>
+Demo Project Link: https://commission-calculator.vercel.app <br/>
 
 Technology used: React.js, TypeScript <br/>
 Check [React Documentation](https://reactjs.org/docs/getting-started.html), [TypeScript Documentation](https://www.typescriptlang.org/docs/) for help.
