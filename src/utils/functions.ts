@@ -1,5 +1,5 @@
 import moment from "moment";
-import { calculateCashOutNaturalFeeProps } from 'types/functionTypes';
+import { calculateCashOutNaturalFeeProps } from "types/functionTypes";
 
 export const checkIsArrayAndHasValue = (data: any) => {
   if (data && Array.isArray(data) && data.length > 0) {
@@ -40,17 +40,22 @@ export const getDatesPassedInWeek = (inputDate: string) => {
 
 export const convertToCeiling = (amount: number) => {
   return Math.ceil(amount * 100) / 100;
-}
+};
 
 export const modifyFinalCommision = (commission: number) => {
   const roundedEuro = convertToCeiling(commission);
   const euro = Math.floor(roundedEuro);
   const cents = Math.round((roundedEuro - euro) * 100);
-  const euroString = euro>0 ? `${euro} euro${euro > 1 ? "s" : ""}` : commission===0 ? `0 euro` : "";
-  const centString = cents>0 ? `${cents} cent${cents !== 1 ? "s" : ""}` : "";
+  const euroString =
+    euro > 0
+      ? `${euro} euro${euro > 1 ? "s" : ""}`
+      : commission === 0
+      ? `0 euro`
+      : "";
+  const centString = cents > 0 ? `${cents} cent${cents !== 1 ? "s" : ""}` : "";
 
   return `${euroString} ${centString}`;
-}
+};
 
 export const calculateCashInFee = (
   amount: number,
@@ -71,14 +76,18 @@ export const calculateCashInFee = (
   return commissionAmount;
 };
 
-export const calculateCashOutNaturalFee = (props: calculateCashOutNaturalFeeProps) => {
+export const calculateCashOutNaturalFee = (
+  props: calculateCashOutNaturalFeeProps,
+) => {
   // Props
   const { amount, configData, date, transactionHistory, userId } = props;
+
+  console.log("configData", configData);
 
   // Commission Amount Track
   let commissionAmount = null;
 
-  if(amount<=0) commissionAmount = 0;
+  if (amount <= 0) commissionAmount = 0;
 
   if (amount > 0) {
     // Dates passed in week from the given date, including given date
@@ -110,18 +119,19 @@ export const calculateCashOutNaturalFee = (props: calculateCashOutNaturalFeeProp
     // Else, if totalTransactionInWeek is less than 1000, then check if the totalTransactionInWeek + amount is less than 1000
     // If transactionSum is less than 1000, then no commission
     // Else, if transactionSum is greater than 1000, then apply the commission percentage in applicable amount
-    if (totalTransactionInWeek >= 1000) {
+    if (totalTransactionInWeek >= configData.week_limit.amount) {
       commissionAmount = (amount * configData.percents) / 100;
-    } else if (totalTransactionInWeek < 1000) {
+    } else if (totalTransactionInWeek < configData.week_limit.amount) {
       // Get total transaction amount in a week including current transaction
       const transactionSum = totalTransactionInWeek
         ? totalTransactionInWeek + amount
         : amount;
 
-      if (transactionSum <= 1000) {
+      if (transactionSum <= configData.week_limit.amount) {
         commissionAmount = 0;
-      } else if (transactionSum > 1000) {
-        const commissionApplicableAmount = amount - 1000;
+      } else if (transactionSum > configData.week_limit.amount) {
+        const commissionApplicableAmount =
+          amount - configData.week_limit.amount;
         commissionAmount =
           (commissionApplicableAmount * configData.percents) / 100;
       }

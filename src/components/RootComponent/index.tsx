@@ -29,9 +29,6 @@ const RootComponent = () => {
   const [cashOutNaturalResponse, cashOutNaturalGet] = useFetch();
   const [cashOutJuridicalResponse, cashOutJuridicalGet] = useFetch();
 
-  console.log("cashOutNaturalResponse", cashOutNaturalResponse);
-  
-
   // Effects
   useEffect(() => {
     // Get all config data from API

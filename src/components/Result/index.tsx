@@ -1,5 +1,5 @@
 import { Typography } from "antd";
-import { modifyFinalCommision } from 'utils/functions';
+import { modifyFinalCommision } from "utils/functions";
 
 type ResultProps = {
   commissionAmount: number | null;
