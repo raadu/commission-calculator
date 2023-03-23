@@ -85,6 +85,8 @@ export const calculateCashOutNaturalFee = (
   // Props
   const { amount, configData, date, transactionHistory, userId } = props;
 
+  console.log("props", props);
+
   // Commission Amount Track
   let commissionAmount = null;
 

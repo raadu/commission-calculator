@@ -84,7 +84,7 @@ const RootComponent = () => {
   return (
     <Row>
       <Col span={checkIsArrayAndHasValue(transactionHistory) ? 18 : 24}>
-        <div className="centerDiv">
+        <div className="flex-justify-center cardWrapper">
           <Card bordered={true} style={{ width: 450 }}>
             <div className="formTitle">Commission Calculator</div>
             <CommissionForm onCalculate={onCalculate} />

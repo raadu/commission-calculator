@@ -14,6 +14,15 @@ body {
     height: 100vh;
 }
 
+.flex-justify-center {
+    display: flex;
+    justify-content: center;
+}
+
+.cardWrapper {
+    padding-top: 5%;
+}
+
 .formTitle {
     font-size: 1.3rem;
     padding-bottom: 0.7rem;

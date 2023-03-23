@@ -5,23 +5,9 @@ import {
   modifyFinalCommision,
   calculateCashInFee,
   calculateCashOutJuridicalFee,
+  calculateCashOutNaturalFee,
 } from "./index";
-
-const cashInConfigData = {
-  percents: 0.03,
-  max: {
-    amount: 5,
-    currency: "EUR",
-  },
-};
-
-const cashOutJuridicalConfigData = {
-  percents: 0.3,
-  min: {
-    amount: 0.5,
-    currency: "EUR",
-  },
-};
+import { cashInConfigData, cashOutJuridicalConfigData } from "utils/dummyData";
 
 // checkIsArrayAndHasValue function tests
 describe("checkIsArrayAndHasValue checks if given data is an array or not", () => {
@@ -224,3 +210,11 @@ describe("calculateCashOutJuridicalFee returns cash out commission fee for given
     expect(res).toBe(3000);
   });
 });
+
+// calculateCashOutNaturalFee function tests
+// describe("calculateCashOutNaturalFee returns cash out commission fee for given amount of legal person", () => {
+//   it("Should return 0.5, if 0 is given", () => {
+//     const res = calculateCashOutNaturalFee({});
+//     expect(res).toBe(0.5);
+//   });
+// });
