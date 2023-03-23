@@ -1,5 +1,5 @@
 import moment from "moment";
-import { calculateCashOutNaturalFeeProps } from "types/functionTypes";
+import { CalculateCashOutNaturalFeeProps } from "types/functionTypes";
 
 export const checkIsArrayAndHasValue = (data: any) => {
   if (data && Array.isArray(data) && data.length > 0) {
@@ -80,12 +80,10 @@ export const calculateCashInFee = (
 };
 
 export const calculateCashOutNaturalFee = (
-  props: calculateCashOutNaturalFeeProps,
+  props: CalculateCashOutNaturalFeeProps,
 ) => {
   // Props
   const { amount, configData, date, transactionHistory, userId } = props;
-
-  console.log("props", props);
 
   // Commission Amount Track
   let commissionAmount = null;

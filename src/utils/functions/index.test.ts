@@ -7,7 +7,16 @@ import {
   calculateCashOutJuridicalFee,
   calculateCashOutNaturalFee,
 } from "./index";
-import { cashInConfigData, cashOutJuridicalConfigData } from "utils/dummyData";
+import {
+  cashInConfigData,
+  cashOutJuridicalConfigData,
+  cashOutNaturalPropsA,
+  cashOutNaturalPropsB,
+  cashOutNaturalPropsC,
+  cashOutNaturalPropsD,
+  cashOutNaturalPropsE,
+  cashOutNaturalPropsF,
+} from "utils/dummyData";
 
 // checkIsArrayAndHasValue function tests
 describe("checkIsArrayAndHasValue checks if given data is an array or not", () => {
@@ -212,9 +221,34 @@ describe("calculateCashOutJuridicalFee returns cash out commission fee for given
 });
 
 // calculateCashOutNaturalFee function tests
-// describe("calculateCashOutNaturalFee returns cash out commission fee for given amount of legal person", () => {
-//   it("Should return 0.5, if 0 is given", () => {
-//     const res = calculateCashOutNaturalFee({});
-//     expect(res).toBe(0.5);
-//   });
-// });
+describe("calculateCashOutNaturalFee returns cash out commission fee for given amount of natural person", () => {
+  it("Should return 87 when amount: 30000, date: 2016-01-06, userId: 1", () => {
+    const res = calculateCashOutNaturalFee(cashOutNaturalPropsA);
+    expect(res).toBe(87);
+  });
+
+  it("Should return 3 when amount: 1000, date: 2016-01-07, userId: 1", () => {
+    const res = calculateCashOutNaturalFee(cashOutNaturalPropsB);
+    expect(res).toBe(3);
+  });
+
+  it("Should return 0.3 when amount: 100, date: 2016-01-07, userId: 1", () => {
+    const res = calculateCashOutNaturalFee(cashOutNaturalPropsC);
+    expect(res).toBe(0.3);
+  });
+
+  it("Should return 0.3 when amount: 100, date: 2016-01-10, userId: 1", () => {
+    const res = calculateCashOutNaturalFee(cashOutNaturalPropsD);
+    expect(res).toBe(0.3);
+  });
+
+  it("Should return 0 when amount: 1000, date: 2016-01-10, userId: 3", () => {
+    const res = calculateCashOutNaturalFee(cashOutNaturalPropsE);
+    expect(res).toBe(0);
+  });
+
+  it("Should return 0 when amount: 300, date: 2016-01-15, userId: 1", () => {
+    const res = calculateCashOutNaturalFee(cashOutNaturalPropsF);
+    expect(res).toBe(0);
+  });
+});
