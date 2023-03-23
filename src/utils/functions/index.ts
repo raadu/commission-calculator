@@ -10,6 +10,9 @@ export const checkIsArrayAndHasValue = (data: any) => {
 };
 
 export const getDatesPassedInWeek = (inputDate: string) => {
+  const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+  if (!dateRegex.test(inputDate)) return [];
+
   const datesTrack = [];
   const inputDateObject = moment(inputDate, "YYYY-MM-DD");
   // Actual start of week is Sunday
@@ -54,7 +57,7 @@ export const modifyFinalCommision = (commission: number) => {
       : "";
   const centString = cents > 0 ? `${cents} cent${cents !== 1 ? "s" : ""}` : "";
 
-  return `${euroString} ${centString}`;
+  return `${euroString}${euroString && centString ? " " : ""}${centString}`;
 };
 
 export const calculateCashInFee = (
@@ -81,8 +84,6 @@ export const calculateCashOutNaturalFee = (
 ) => {
   // Props
   const { amount, configData, date, transactionHistory, userId } = props;
-
-  console.log("configData", configData);
 
   // Commission Amount Track
   let commissionAmount = null;
