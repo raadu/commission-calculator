@@ -16,7 +16,12 @@ const Result = (props: ResultProps) => {
           <Typography.Title level={5} style={{ textAlign: "center" }}>
             Calculated Commission Is
           </Typography.Title>
-          <Typography.Title level={2} mark style={{ textAlign: "center" }}>
+          <Typography.Title
+            level={2}
+            mark
+            style={{ textAlign: "center" }}
+            role="result_text"
+          >
             {`${modifyFinalCommision(commissionAmount)}`}
           </Typography.Title>
         </>

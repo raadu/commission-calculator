@@ -3,7 +3,25 @@ import {
   getDatesPassedInWeek,
   convertToCeiling,
   modifyFinalCommision,
+  calculateCashInFee,
+  calculateCashOutJuridicalFee,
 } from "./index";
+
+const cashInConfigData = {
+  percents: 0.03,
+  max: {
+    amount: 5,
+    currency: "EUR",
+  },
+};
+
+const cashOutJuridicalConfigData = {
+  percents: 0.3,
+  min: {
+    amount: 0.5,
+    currency: "EUR",
+  },
+};
 
 // checkIsArrayAndHasValue function tests
 describe("checkIsArrayAndHasValue checks if given data is an array or not", () => {
@@ -150,5 +168,59 @@ describe("modifyFinalCommision converts given amount in Euro and Euro Cents", ()
   it("Should return 1 cent, if 0.006 is given", () => {
     const res = modifyFinalCommision(0.006);
     expect(res).toBe("1 cent");
+  });
+});
+
+// calculateCashInFee function tests
+describe("calculateCashInFee returns cash in commission fee for given amount", () => {
+  it("Should return 0, if 0 is given", () => {
+    const res = calculateCashInFee(0, cashInConfigData);
+    expect(res).toBe(0);
+  });
+
+  it("Should return  0.0003, if 1 is given", () => {
+    const res = calculateCashInFee(1, cashInConfigData);
+    expect(res).toBe(0.0003);
+  });
+
+  it("Should return 0.3, if 1000 is given", () => {
+    const res = calculateCashInFee(1000, cashInConfigData);
+    expect(res).toBe(0.3);
+  });
+
+  it("Should return 5, if 100000 is given", () => {
+    const res = calculateCashInFee(100000, cashInConfigData);
+    expect(res).toBe(5);
+  });
+});
+
+// calculateCashOutJuridicalFee function tests
+describe("calculateCashOutJuridicalFee returns cash out commission fee for given amount of legal person", () => {
+  it("Should return 0.5, if 0 is given", () => {
+    const res = calculateCashOutJuridicalFee(0, cashOutJuridicalConfigData);
+    expect(res).toBe(0.5);
+  });
+
+  it("Should return 0.5, if 1 is given", () => {
+    const res = calculateCashOutJuridicalFee(1, cashOutJuridicalConfigData);
+    expect(res).toBe(0.5);
+  });
+
+  it("Should return 3, if 1000 is given", () => {
+    const res = calculateCashOutJuridicalFee(1000, cashOutJuridicalConfigData);
+    expect(res).toBe(3);
+  });
+
+  it("Should return 0.5, if 0.67 is given", () => {
+    const res = calculateCashOutJuridicalFee(0.67, cashOutJuridicalConfigData);
+    expect(res).toBe(0.5);
+  });
+
+  it("Should return 3000, if 1000000 is given", () => {
+    const res = calculateCashOutJuridicalFee(
+      1000000,
+      cashOutJuridicalConfigData,
+    );
+    expect(res).toBe(3000);
   });
 });

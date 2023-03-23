@@ -1,6 +1,8 @@
 # Introduction
 Commission Calculator - Get the calculated commission charge for your transaction amount. Cash In, Cash Out commission charge calculated based on total amount, weekly free charge limit, user ID and user type.<br/>
 
+Demo Project Link:  <br/>
+
 Technology used: React.js, TypeScript <br/>
 Check [React Documentation](https://reactjs.org/docs/getting-started.html), [TypeScript Documentation](https://www.typescriptlang.org/docs/) for help.
 
@@ -24,5 +26,13 @@ yarn start
 
 * Port used 3000. App is displayed in localhost:3000. If the port 3000 is not free, it will prompt and ask to open in another port.
 
-Demo Link:  <br/>
-Live Link: <br/>
+# Testing
+To run unit tests enter this command
+```
+npm run test
+```
+or if you are using Yarn,
+
+```
+yarn test
+```
