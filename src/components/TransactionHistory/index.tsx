@@ -28,13 +28,14 @@ const TransactionHistory = (props: TransactionHistoryProps) => {
               }
               key={index}
             >
-              Date: {item?.date} <br />
-              User ID: {item?.user_id} <br />
-              User Type:{" "}
+              <strong>Date:</strong> {item?.date} <br />
+              <strong>User ID: </strong>
+              {item?.user_id} <br />
+              <strong>User Type:</strong>{" "}
               {item?.user_type.charAt(0).toUpperCase() +
                 item?.user_type.slice(1)}{" "}
               <br />
-              Commission: {`${item?.commission} €`} <br />
+              <strong>Commission:</strong> {`${item?.commission} €`} <br />
             </Descriptions.Item>
           );
         })}
