@@ -4,9 +4,9 @@ import { CalculateCashOutNaturalFeeProps } from "types/functionTypes";
 export const checkIsArrayAndHasValue = (data: any) => {
   if (data && Array.isArray(data) && data.length > 0) {
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 };
 
 export const getDatesPassedInWeek = (inputDate: string) => {
@@ -28,7 +28,7 @@ export const getDatesPassedInWeek = (inputDate: string) => {
     startOfWeek = moment(inputDateObject).startOf("week").add(1, "days");
   }
 
-  let clonedStartOfWeek = startOfWeek.clone();
+  const clonedStartOfWeek = startOfWeek.clone();
 
   while (clonedStartOfWeek.isSameOrBefore(inputDateObject)) {
     // Add the current or past date of the week to the array
@@ -49,13 +49,16 @@ export const modifyFinalCommision = (commission: number) => {
   const roundedEuro = convertToCeiling(commission);
   const euro = Math.floor(roundedEuro);
   const cents = Math.round((roundedEuro - euro) * 100);
-  const euroString =
-    euro > 0
-      ? `${euro} euro${euro > 1 ? "s" : ""}`
-      : commission === 0
-      ? `0 euro`
-      : "";
   const centString = cents > 0 ? `${cents} cent${cents !== 1 ? "s" : ""}` : "";
+  let euroString = "";
+
+  if (euro > 0) {
+    euroString = `${euro} euro${euro > 1 ? "s" : ""}`;
+  } else if (commission === 0) {
+    euroString = `0 euro`;
+  } else {
+    euroString = "";
+  }
 
   return `${euroString}${euroString && centString ? " " : ""}${centString}`;
 };
@@ -103,17 +106,16 @@ export const calculateCashOutNaturalFee = (
           currentValue.user_type === "natural" &&
           currentValue.user_id === userId
         ) {
-          return (accumulator += currentValue.amount);
-        } else {
-          return accumulator;
+          const result = accumulator + currentValue.amount;
+          return result;
         }
+
+        return accumulator;
       },
       0,
     );
 
-    totalTransactionInWeek = totalTransactionInWeek
-      ? totalTransactionInWeek
-      : 0;
+    totalTransactionInWeek = totalTransactionInWeek || 0;
 
     // LOGIC:
     // If totalTransactionInWeek is greater or equal to 1000, then apply the commission percentage

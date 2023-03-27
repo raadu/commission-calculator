@@ -32,8 +32,7 @@ const TransactionHistory = (props: TransactionHistoryProps) => {
               <strong>User ID: </strong>
               {item?.user_id} <br />
               <strong>User Type:</strong>{" "}
-              {item?.user_type.charAt(0).toUpperCase() +
-                item?.user_type.slice(1)}{" "}
+              {item.user_type.charAt(0).toUpperCase() + item.user_type.slice(1)}{" "}
               <br />
               <strong>Commission:</strong> {`${item?.commission} €`} <br />
             </Descriptions.Item>

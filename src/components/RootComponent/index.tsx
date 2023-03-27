@@ -4,7 +4,7 @@ import moment from "moment";
 import CommissionForm from "components/CommissionForm";
 import TransactionHistory from "components/TransactionHistory";
 import Result from "components/Result";
-import { useFetch } from "utils/customHooks/api-service";
+import useFetch from "utils/customHooks/api-service";
 import {
   CASH_IN_ENDPOINT,
   CASH_OUT_NATURAL_ENDPOINT,
@@ -14,8 +14,8 @@ import {
   calculateCashInFee,
   calculateCashOutNaturalFee,
   calculateCashOutJuridicalFee,
+  checkIsArrayAndHasValue,
 } from "utils/functions";
-import { checkIsArrayAndHasValue } from "utils/functions";
 
 const RootComponent = () => {
   // States
@@ -58,7 +58,7 @@ const RootComponent = () => {
           amount: values.amount,
           configData: cashOutNaturalResponse.data.data,
           date: formattedDate,
-          transactionHistory: transactionHistory,
+          transactionHistory,
           userId: values.user_id,
         };
 
