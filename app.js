@@ -17,6 +17,8 @@ import {
   CASH_OUT_NATURAL_ENDPOINT,
   CASH_OUT_JURIDICAL_ENDPOINT,
 } from "./src/utils/endpoints.ts";
+
+// Configure dotenv to use ENV variables
 dotenv.config();
 
 // Get file path
