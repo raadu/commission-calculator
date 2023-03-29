@@ -1,13 +1,4 @@
 import {
-  checkIsArrayAndHasValue,
-  getDatesPassedInWeek,
-  convertToCeiling,
-  modifyFinalCommision,
-  calculateCashInFee,
-  calculateCashOutJuridicalFee,
-  calculateCashOutNaturalFee,
-} from "./index";
-import {
   cashInConfigData,
   cashOutJuridicalConfigData,
   cashOutNaturalPropsA,
@@ -17,6 +8,15 @@ import {
   cashOutNaturalPropsE,
   cashOutNaturalPropsF,
 } from "utils/dummyData";
+import {
+  checkIsArrayAndHasValue,
+  getDatesPassedInWeek,
+  convertToCeiling,
+  modifyFinalCommision,
+  calculateCashInFee,
+  calculateCashOutJuridicalFee,
+  calculateCashOutNaturalFee,
+} from "./index";
 
 // checkIsArrayAndHasValue function tests
 describe("checkIsArrayAndHasValue checks if given data is an array or not", () => {

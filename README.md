@@ -41,7 +41,7 @@ PATH is the path of the json file. <br/>
 ts-node --esm ENTRYPOINT PATH
 ```
 
-A input.json file is already included in the project. To run the app, go to project directory enter this command. 
+An input.json file is already included in the project. To run the app, go to project directory enter this command. 
 
 ```
 ts-node --esm app.js input.json

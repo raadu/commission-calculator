@@ -50,6 +50,7 @@ const cashOutJuridicalResponse = await sendGetRequest(
 
 fs.readFile(filePath, { encoding: "utf-8" }, function (err, data) {
   if (!err) {
+    // Data read from file and parsed
     const parsedData = JSON.parse(data);
     // For tracking transaction history of this file
     let transactionHistory = [];
