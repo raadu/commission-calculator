@@ -97,7 +97,7 @@ export const calculateCashOutNaturalFee = (
     // Dates passed in week from the given date, including given date
     const datesPassedInWeek = getDatesPassedInWeek(date);
 
-    // Total cashout transaction amount in the week for selected natiral user
+    // Total cashout transaction amount in the week for selected natural user
     let totalTransactionInWeek = transactionHistory?.reduce(
       (accumulator, currentValue) => {
         if (

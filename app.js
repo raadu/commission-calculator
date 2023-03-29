@@ -2,30 +2,30 @@ import fs from "fs";
 import path from "path";
 import { resolve } from "node:path";
 import { argv, cwd } from "node:process";
+import { fileURLToPath } from "url";
+import moment from "moment";
+import axios from "axios";
+import * as dotenv from "dotenv";
 import {
   checkIsArrayAndHasValue,
   calculateCashInFee,
   calculateCashOutNaturalFee,
   calculateCashOutJuridicalFee,
 } from "./src/utils/functions/index.ts";
-import { fileURLToPath } from "url";
-import axios from "axios";
 import {
   CASH_IN_ENDPOINT,
   CASH_OUT_NATURAL_ENDPOINT,
   CASH_OUT_JURIDICAL_ENDPOINT,
 } from "./src/utils/endpoints.ts";
-import * as dotenv from "dotenv";
-import moment from "moment";
 dotenv.config();
 
+// Get file path
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 const relativePath = argv[2]; // Input file name
-const absolutePath = resolve(cwd(), relativePath);
 const filePath = path.join(__dirname, relativePath);
 
+// API Endpoints
 const cashInAPIEndpoint = `${process.env.REACT_APP_BASE_URL_ENDPOINT}${CASH_IN_ENDPOINT}`;
 const cashOutNaturalAPIEndpoint = `${process.env.REACT_APP_BASE_URL_ENDPOINT}${CASH_OUT_NATURAL_ENDPOINT}`;
 const cashOutJuridicalAPIEndpoint = `${process.env.REACT_APP_BASE_URL_ENDPOINT}${CASH_OUT_JURIDICAL_ENDPOINT}`;
@@ -37,23 +37,22 @@ const sendGetRequest = async (endpoint) => {
       return response.data;
     }
   } catch (error) {
-    // Handle Error Here
-    console.error("error", error);
+    process.stdout.write(error);
   }
 };
 
+// Get responsed from API
 const cashInResponse = await sendGetRequest(cashInAPIEndpoint);
 const cashOutNaturalResponse = await sendGetRequest(cashOutNaturalAPIEndpoint);
 const cashOutJuridicalResponse = await sendGetRequest(
   cashOutJuridicalAPIEndpoint,
 );
 
-console.log('percents', cashInResponse.percents);
-
-
 fs.readFile(filePath, { encoding: "utf-8" }, function (err, data) {
   if (!err) {
     const parsedData = JSON.parse(data);
+    // For tracking transaction history of this file
+    let transactionHistory = [];
 
     if (checkIsArrayAndHasValue(parsedData)) {
       parsedData.forEach((values) => {
@@ -93,10 +92,21 @@ fs.readFile(filePath, { encoding: "utf-8" }, function (err, data) {
           }
         }
 
-        console.log("calculatedCommission", values.type, values.operation.amount, calculatedCommission);
+        // Attach transaction data to transactionHistory
+        transactionHistory = [
+          ...transactionHistory,
+          {
+            ...values,
+            amount: values.operation.amount,
+            commission: calculatedCommission,
+          },
+        ];
+
+        // Print calculated commission
+        process.stdout.write(calculatedCommission.toString() + "\n");
       });
     }
   } else {
-    console.log(err);
+    process.stdout.write(calculatedCommission.toString(err));
   }
 });
