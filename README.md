@@ -1,5 +1,5 @@
 # Introduction
-Commission Calculator - Get the calculated commission charge for your transaction amount. Cash In, Cash Out commission charge calculated based on total amount, weekly free charge limit, user ID and user type.<br/>
+Commission Calculator - Get the calculated commission charge for your transaction amount. Cash In, Cash Out commission charge calculated based on total amount, weekly free charge limit, user ID and user type. <br/>
 
 Demo Project Link: https://commission-calculator.vercel.app <br/>
 
@@ -25,6 +25,27 @@ yarn start
 ```
 
 * Port used 3000. App is displayed in localhost:3000. If the port 3000 is not free, it will prompt and ask to open in another port.
+
+# Executing in command line
+Need ts-node to be installed as global npm package. It is used to run node projects that use TypeScript with ESM module. Please install the package using this command.
+
+```
+npm install -g ts-node
+```
+
+A json file with given transaction data is needed for input. <br/>
+ENTRYPOINT here is app.js <br/>
+PATH is the path of the json file. <br/>
+
+```
+ts-node --esm ENTRYPOINT PATH
+```
+
+A input.json file is already included in the project. To run the app, go to project directory enter this command. 
+
+```
+ts-node --esm app.js input.json
+```
 
 # Testing
 To run unit tests enter this command
